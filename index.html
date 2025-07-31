@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF‑8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Трекер воды</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { background:#121212; color:#fff; font-family:Arial,sans-serif; text-align:center; padding:40px 20px; }
+    h1 { margin-bottom:20px; }
+    #progress { font-size:24px; margin-bottom:20px; }
+    button { padding:15px 30px; font-size:18px; background:#1e88e5; color:#fff; border:none; border-radius:10px; cursor:pointer; }
+    button:hover { background:#1565c0; }
+    #reset { margin-top:30px; font-size:16px; background:#424242; }
+  </style>
+</head>
+<body>
+  <h1>Трекер воды</h1>
+  <div id="progress">Выпито: 0 мл / 2000 мл</div>
+  <button onclick="addWater()">Выпил +250 мл</button><br/>
+  <button id="reset" onclick="resetWater()">Сбросить прогресс</button>
+  <script>
+    const LIMIT = 2000;
+    let water = +localStorage.getItem('water') || 0;
+    updateDisplay();
+    function updateDisplay() {
+      document.getElementById('progress').textContent = `Выпито: ${water} мл / ${LIMIT} мл`;
+    }
+    function addWater() {
+      if (water + 250 <= LIMIT * 1.5) {
+        water += 250;
+        localStorage.setItem('water', water);
+        updateDisplay();
+      }
+    }
+    function resetWater() {
+      water = 0;
+      localStorage.setItem('water', water);
+      updateDisplay();
+    }
+  </script>
+</body>
+</html>
